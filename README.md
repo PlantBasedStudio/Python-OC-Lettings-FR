@@ -35,7 +35,7 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 #### Exécuter le site
 
 - `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
+- `source venv/bin/activate` or `venv\Scripts\activate` on windows
 - `pip install --requirement requirements.txt`
 - `python manage.py runserver`
 - Aller sur `http://localhost:8000` dans un navigateur.
