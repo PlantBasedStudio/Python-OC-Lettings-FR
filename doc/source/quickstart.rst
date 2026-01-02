@@ -40,7 +40,7 @@ Pour accéder à l'interface d'administration :
 
 - **URL** : http://localhost:8000/admin/
 - **Username** : admin
-- **Password** : Abc1234!
+- **Password** : admin
 
 Lancer les tests
 ----------------

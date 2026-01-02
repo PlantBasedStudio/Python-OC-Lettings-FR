@@ -17,6 +17,9 @@ COPY . .
 
 RUN python manage.py migrate --noinput
 
+# Create default superuser admin/admin
+RUN python manage.py shell -c "from django.contrib.auth.models import User; User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
