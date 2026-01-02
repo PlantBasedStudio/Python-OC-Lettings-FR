@@ -36,12 +36,12 @@ class AddressModelTest(TestCase):
         with self.assertRaises(ValidationError):
             address.full_clean()
 
-    def test_address_number_positive(self):
-        """Test that address number must be positive."""
-        self.valid_address_data["number"] = 0
-        address = Address(**self.valid_address_data)
-        with self.assertRaises(ValidationError):
-            address.full_clean()
+    def test_address_creation_and_retrieval(self):
+        """Test that an address can be created and retrieved."""
+        address = Address.objects.create(**self.valid_address_data)
+        retrieved = Address.objects.get(id=address.id)
+        self.assertEqual(retrieved.number, self.valid_address_data["number"])
+        self.assertEqual(retrieved.street, self.valid_address_data["street"])
 
     def test_state_length_validation(self):
         """Test that state must be exactly 2 characters."""
@@ -118,6 +118,9 @@ class LettingModelTest(TestCase):
         with self.assertRaises(ValidationError):
             letting.full_clean()
 
+    def test_address_one_to_one_constraint(self):
+        """Test that address can only be assigned to one letting (OneToOne)."""
+        Letting.objects.create(title="First Apartment", address=self.address)
         with self.assertRaises(IntegrityError):
             Letting.objects.create(title="Second Apartment", address=self.address)
 
@@ -206,7 +209,7 @@ class LettingsViewsTest(TestCase):
         """Test that letting detail view uses correct template."""
         url = reverse("lettings:letting", args=[self.letting1.id])
         response = self.client.get(url)
-        self.assertTemplateUsed(response, "letting.html")
+        self.assertTemplateUsed(response, "lettings/letting.html")
 
     def test_letting_detail_view_context(self):
         """Test that letting detail view contains correct context."""

@@ -52,6 +52,7 @@ class ProfileModelTest(TestCase):
 
     def test_one_to_one_relationship(self):
         """Test that each user can only have one profile."""
+        Profile.objects.create(user=self.user, favorite_city="Paris")
         with self.assertRaises(IntegrityError):
             Profile.objects.create(user=self.user, favorite_city="Los Angeles")
 
@@ -151,7 +152,7 @@ class ProfilesViewsTest(TestCase):
         """Test that profile detail view uses correct template."""
         url = reverse("profiles:profile", args=[self.user1.username])
         response = self.client.get(url)
-        self.assertTemplateUsed(response, "profile.html")
+        self.assertTemplateUsed(response, "profiles/profile.html")
 
     def test_profile_detail_view_context(self):
         """Test that profile detail view contains correct context."""

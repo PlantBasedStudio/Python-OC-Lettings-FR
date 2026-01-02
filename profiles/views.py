@@ -1,5 +1,9 @@
+import logging
+
 from django.shortcuts import render, get_object_or_404
 from .models import Profile
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -25,6 +29,7 @@ def index(request):
         profiles_list (QuerySet): All Profile objects from the database.
     """
     profiles_list = Profile.objects.all()
+    logger.info("Profiles index accessed - %d profiles found", len(profiles_list))
     context = {"profiles_list": profiles_list}
     return render(request, "profiles/index.html", context)
 
@@ -55,6 +60,7 @@ def profile(request, username):
     Context:
         profile (Profile): The Profile object associated with the username.
     """
+    logger.info("Profile detail accessed - username: %s", username)
     profile = get_object_or_404(Profile, user__username=username)
     context = {"profile": profile}
-    return render(request, "profile.html", context)
+    return render(request, "profiles/profile.html", context)

@@ -1,5 +1,16 @@
+"""
+Views for the lettings application.
+
+This module contains views for displaying property lettings,
+including the listings index and individual letting details.
+"""
+
+import logging
+
 from django.shortcuts import render, get_object_or_404
 from .models import Letting
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -25,6 +36,7 @@ def index(request):
         lettings_list (QuerySet): All Letting objects from the database.
     """
     lettings_list = Letting.objects.all()
+    logger.info("Lettings index accessed - %d lettings found", len(lettings_list))
     context = {"lettings_list": lettings_list}
     return render(request, "lettings/index.html", context)
 
@@ -57,12 +69,12 @@ def letting(request, letting_id):
         address (Address): The Address object associated with the letting.
 
     Note:
-        This view does not handle the case where the letting doesn't exist.
-        Consider using get_object_or_404() for better error handling.
+        Uses get_object_or_404() for proper error handling when letting doesn't exist.
     """
+    logger.info("Letting detail accessed - ID: %d", letting_id)
     letting = get_object_or_404(Letting, id=letting_id)
     context = {
         "title": letting.title,
         "address": letting.address,
     }
-    return render(request, "letting.html", context)
+    return render(request, "lettings/letting.html", context)

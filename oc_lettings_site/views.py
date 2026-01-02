@@ -1,4 +1,8 @@
+import logging
+
 from django.shortcuts import render
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -18,6 +22,7 @@ def index(request):
     Template:
         index.html: Main template for the site's landing page.
     """
+    logger.info("Home page accessed")
     return render(request, "index.html")
 
 
@@ -39,6 +44,7 @@ def custom_404_view(request, exception):
     Template:
         404.html: Custom template for 404 error pages.
     """
+    logger.warning("404 error: Page not found - %s", request.path)
     return render(request, "404.html", status=404)
 
 
@@ -59,4 +65,5 @@ def custom_500_view(request):
     Template:
         500.html: Custom template for 500 error pages.
     """
+    logger.error("500 error: Internal server error on %s", request.path)
     return render(request, "500.html", status=500)
