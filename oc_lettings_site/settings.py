@@ -167,6 +167,9 @@ STATICFILES_DIRS = [
 
 # WhiteNoise configuration for serving static files in production
 # Use standard storage in DEBUG mode (development/testing) to avoid manifest errors
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 if not DEBUG:
     STORAGES = {
         "default": {
@@ -174,6 +177,16 @@ if not DEBUG:
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+else:
+    #prod
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
 
