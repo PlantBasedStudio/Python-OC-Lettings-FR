@@ -180,7 +180,6 @@ if not DEBUG:
         },
     }
 else:
-    #prod
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
